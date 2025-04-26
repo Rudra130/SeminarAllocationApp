@@ -5,11 +5,13 @@ import Registration from "./components/Registration";
 import HallBooking from "./components/HallBooking"
 import Booking from "./components/Booking"
 function App() {
+
+
   return (
     <Router>
       <Routes>
        
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<HallBooking/>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Registration />} />
         <Route path='/HallBooking' element={<HallBooking></HallBooking>}></Route>

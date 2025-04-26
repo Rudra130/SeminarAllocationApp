@@ -1,4 +1,6 @@
-import React from "react";
+import React,{ useState } from "react";
+import axios from "axios";
+
 import { 
   Container,
   Card, 
@@ -11,7 +13,27 @@ import {
 } from "@mui/material";
 import { Email, Lock } from "@mui/icons-material";
 
+
 const LoginPage = () => {
+
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+
+const handleLogin = async () =>{
+  try{
+    const response = await axios.post("http://localhost:6969/api/auth/login", {
+      email,
+      password,});
+      localStorage.setItem("token", response.data.token);
+      alert("Login successfull!!");
+      console.log(response.data)
+  }catch(err){
+    alert("Login failed "+(err.response?.data?.message)||err.message);
+    console.log(err)
+  }
+}
+
+
   return (
     <Container maxWidth="lg">
       <Box sx={{ mt:10 }}>
@@ -32,6 +54,8 @@ const LoginPage = () => {
                 label="Email ID" 
                 variant="outlined" 
                 margin="normal" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 InputProps={{ startAdornment: <Email sx={{ mr: 1 }} /> }} 
               />
               <TextField 
@@ -39,7 +63,9 @@ const LoginPage = () => {
                 label="Password" 
                 type="password" 
                 variant="outlined" 
-                margin="normal" 
+                margin="normal"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} 
                 InputProps={{ startAdornment: <Lock sx={{ mr: 1 }} /> }} 
               />
 
@@ -48,6 +74,7 @@ const LoginPage = () => {
                 variant="contained" 
                 color="primary" 
                 sx={{ mt: 2, fontSize: "16px", textTransform: "none" }}
+                onClick={handleLogin}
               >
                 Login
               </Button>

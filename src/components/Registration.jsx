@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Registration() {
   const [formData, setFormData] = useState({
@@ -7,19 +8,34 @@ export default function Registration() {
     password: "",
     confirmPassword: "",
   });
-
+  const [loading, setLoading] = useState(false);
+ 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = (e) => {
+  };
+  const { email,name, password } = formData;
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
+    setLoading(true)
+    try{
+      const response = await axios.post("http://localhost:6969/api/auth/register", {
+        name,
+        email,
+        password,});
+        alert("Register successfull!!");
+        console.log(response.data)
+    }catch(err){
+      alert("Register failed "+(err.response?.data?.message)||err.message);
+      console.log(err)
+    }
+    setLoading(false)
     console.log("Form Submitted", formData);
-    // API call to backend can be added here
+
   };
 
   return (
@@ -65,8 +81,8 @@ export default function Registration() {
               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-semibold transition-all">
-              Register
+            <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-semibold transition-all">
+              {loading?"Registering...":"Register"}
             </button>
           </form>
         </div>
