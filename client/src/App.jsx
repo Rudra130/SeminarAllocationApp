@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import LoginPage from "./components/login";
 import "./App.css";
 import Registration from "./components/Registration";
-
+import HallBooking from "./components/HallBooking"
+import Booking from "./components/Booking"
 function App() {
   return (
     <Router>
@@ -11,7 +12,8 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Registration />} />
-
+        <Route path='/HallBooking' element={<HallBooking></HallBooking>}></Route>
+        <Route path='/booking' element={<Booking></Booking>}/> 
       </Routes>
     </Router>
   );
